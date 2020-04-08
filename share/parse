@@ -1,13 +1,17 @@
 #!/bin/bash
 
-listing="$1"
-
-[ ! -e $listing ] && {
-  echo "ERROR: invalid file"
-  exit 1
-}
-
 temp=$(mktemp)
+if [ $# -ge 1 -a -f "$1" ]; then
+  listing="$1"
+  [ ! -e $listing ] && {
+    echo "ERROR: invalid file"
+    exit 1
+  }
+else
+  listing=$(mktemp)
+  cat - >$listing
+fi
+
 (grep '\d\.' $listing || \
   grep '\d\s\{2,\}' $listing) \
   >$temp

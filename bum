@@ -17,5 +17,5 @@ section="$(wikipedia2text -Q -t "$article" | grep "Track")"
 }
 
 temp=$(mktemp)
-wikipedia2text -Q -Y "$section" -D "-cols 9000" "$article" >$temp
-$DIR/share/parse $temp
+wikipedia2text -Q -Y "$section" -D "-cols 9000" "$article" |\
+  $DIR/share/parse
