@@ -9,13 +9,5 @@ article="$1"
   exit 1
 }
 
-section="$(wikipedia2text -Q -t "$article" | grep "Track")"
-
-[ -z "$section" ] && {
-  echo "ERROR: couldn't find the track listing section"
-  exit 1
-}
-
-temp=$(mktemp)
-wikipedia2text -Q -Y "$section" -D "-cols 9000" "$article" |\
+$DIR/share/get-article $article | \
   $DIR/share/parse

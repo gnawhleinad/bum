@@ -1,0 +1,17 @@
+#!/bin/bash
+
+article="$1"
+
+[ -z "$article" ] && {
+  echo "ERROR: invalid article"
+  exit 1
+}
+
+section="$(wikipedia2text -Q -t "$article" | grep "Track")"
+
+[ -z "$section" ] && {
+  echo "ERROR: couldn't find the track listing section"
+  exit 1
+}
+
+wikipedia2text -Q -Y "$section" -D "-cols 9000" "$article"
