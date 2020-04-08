@@ -1,0 +1,21 @@
+#!/bin/bash
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+
+article="$1"
+
+[ -z "$article" ] && {
+  echo "ERROR: invalid article"
+  exit 1
+}
+
+section="$(wikipedia2text -Q -t "$article" | grep "Track")"
+
+[ -z "$section" ] && {
+  echo "ERROR: couldn't find the track listing section"
+  exit 1
+}
+
+temp=$(mktemp)
+wikipedia2text -Q -Y "$section" -D "-cols 9000" "$article" >$temp
+$DIR/share/parse $temp
